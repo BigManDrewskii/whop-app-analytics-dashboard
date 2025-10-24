@@ -56,7 +56,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
 						Revenue Trend (30 Days)
 					</Heading>
 					{hasData && (
-						<Badge color="blue" variant="soft" radius="full">
+						<Badge color="blue" variant="soft">
 							{chartData.length} data points
 						</Badge>
 					)}

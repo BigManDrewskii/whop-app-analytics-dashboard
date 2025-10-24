@@ -43,7 +43,7 @@ export function SegmentationChart({ segments }: SegmentationChartProps) {
 					<Heading size="5" weight="medium">
 						Customer Segmentation
 					</Heading>
-					<Badge color="purple" variant="soft" radius="full">
+					<Badge color="purple" variant="soft">
 						{totalCustomers} total
 					</Badge>
 				</div>

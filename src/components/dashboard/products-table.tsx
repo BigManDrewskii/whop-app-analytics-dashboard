@@ -92,7 +92,7 @@ export function ProductsTable({ products }: ProductsTableProps) {
 						</Heading>
 					</div>
 					{hasData && (
-						<Badge color="purple" variant="soft" radius="full">
+						<Badge color="purple" variant="soft">
 							{sortedProducts.length} products
 						</Badge>
 					)}
@@ -179,7 +179,6 @@ export function ProductsTable({ products }: ProductsTableProps) {
 										<Badge
 											color={getRankColor(index)}
 											variant="solid"
-											radius="full"
 											size="2"
 											style={{
 												width: '24px',
