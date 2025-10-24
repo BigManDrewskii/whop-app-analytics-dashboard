@@ -5,7 +5,7 @@ import {
   HydrationBoundary,
   QueryClient,
   QueryClientProvider,
-  useSuspenseQuery,
+  useQuery,
 } from '@tanstack/react-query'
 import { type ReactNode, useState } from 'react'
 import { WhopContext } from './whop-context'
@@ -24,7 +24,8 @@ export function WhopProvider({ children, experienceId, state }: WhopProviderProp
         defaultOptions: {
           queries: {
             staleTime: 60 * 1000, // 1 minute
-            retry: 1,
+            retry: false, // CRITICAL: Prevent infinite retry loop
+            refetchOnWindowFocus: false,
           },
         },
       }),
@@ -45,12 +46,39 @@ interface WhopProviderInnerProps {
 }
 
 function WhopProviderInner({ children, experienceId }: WhopProviderInnerProps) {
-  const { data: experience } = useSuspenseQuery(whopExperienceQuery(experienceId))
-  const {
-    data: { user, access },
-  } = useSuspenseQuery(whopUserQuery(experienceId))
+  const { data: experience, isLoading: experienceLoading, error: experienceError } = useQuery({
+    ...whopExperienceQuery(experienceId),
+    retry: false,
+  })
+
+  const { data: userData, isLoading: userLoading, error: userError } = useQuery({
+    ...whopUserQuery(experienceId),
+    retry: false,
+  })
+
+  // Show loading state
+  if (experienceLoading || userLoading) {
+    return (
+      <div style={{ padding: '40px', textAlign: 'center' }}>
+        <p>Loading app...</p>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (experienceError || userError || !experience || !userData) {
+    return (
+      <div style={{ padding: '40px', textAlign: 'center' }}>
+        <h2>Failed to load app</h2>
+        <p>{experienceError?.message || userError?.message || 'Unknown error'}</p>
+        <button onClick={() => window.location.reload()}>Reload</button>
+      </div>
+    )
+  }
 
   return (
-    <WhopContext.Provider value={{ experience, user, access }}>{children}</WhopContext.Provider>
+    <WhopContext.Provider value={{ experience, user: userData.user, access: userData.access }}>
+      {children}
+    </WhopContext.Provider>
   )
 }
