@@ -10,10 +10,22 @@ export async function GET(
 		return NextResponse.json({ error: 'Missing params' }, { status: 400 })
 
 	try {
+		console.log('[EXPERIENCE API] Fetching experience:', experienceId)
 		const experience = await whop.experiences.getExperience({ experienceId })
+		console.log('[EXPERIENCE API] Success:', experience.id)
 		return NextResponse.json<WhopExperience>(experience)
 	} catch (error) {
-		console.error('Failed to fetch experience:', error)
-		return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 })
+		console.error('[EXPERIENCE API] Error details:', {
+			experienceId,
+			error: error instanceof Error ? error.message : String(error),
+			stack: error instanceof Error ? error.stack : undefined,
+		})
+		return NextResponse.json(
+			{
+				error: 'Failed to fetch experience',
+				details: error instanceof Error ? error.message : String(error),
+			},
+			{ status: 500 }
+		)
 	}
 }
