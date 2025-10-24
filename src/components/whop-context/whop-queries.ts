@@ -17,7 +17,7 @@ export const serverQueryClient = new QueryClient({
 
 export function getApiUrl(path: string): string {
 	if (typeof window === 'undefined') {
-		return `${env.NEXT_PUBLIC_VERCEL_URL}${path}`
+		return `https://${env.NEXT_PUBLIC_VERCEL_URL}${path}`
 	}
 	return path
 }
