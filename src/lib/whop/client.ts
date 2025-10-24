@@ -88,7 +88,7 @@ export async function fetchAllProducts(companyId: string): Promise<any[]> {
 				if (!productMap.has(product.id)) {
 					productMap.set(product.id, {
 						id: product.id,
-						name: product.name || 'Unnamed Product',
+						name: product.title || product.name || 'Unnamed Product',
 						visibility: product.visibility,
 						stock: product.stock,
 						initialStock: product.initialStock,

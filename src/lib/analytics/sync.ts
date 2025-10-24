@@ -127,7 +127,7 @@ export async function syncCompanyData({
 		const productsFormatted = products.map((p: any) => ({
 			id: p.id,
 			company_id: companyId,
-			name: p.name || 'Unnamed Product',
+			name: p.title || p.name || 'Unnamed Product',
 			created_at: new Date().toISOString(), // Use current time as we don't have creation date
 			metadata: {
 				visibility: p.visibility,

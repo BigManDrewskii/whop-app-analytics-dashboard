@@ -43,7 +43,7 @@ export async function GET(req: NextRequest) {
 				status: r?.status,
 				finalAmount: r?.finalAmount,
 				createdAt: r?.createdAt,
-				product: r?.accessPass?.name,
+				product: r?.accessPass?.title,
 			})),
 		}
 	} catch (error) {
