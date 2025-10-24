@@ -17,7 +17,11 @@ export const serverQueryClient = new QueryClient({
 
 export function getApiUrl(path: string): string {
 	if (typeof window === 'undefined') {
-		return `https://${env.NEXT_PUBLIC_VERCEL_URL}${path}`
+		// Use Vercel's automatic VERCEL_URL in production, fallback to localhost for dev
+		const baseUrl = process.env.VERCEL_URL
+			? `https://${process.env.VERCEL_URL}`
+			: 'http://localhost:3000'
+		return `${baseUrl}${path}`
 	}
 	return path
 }
