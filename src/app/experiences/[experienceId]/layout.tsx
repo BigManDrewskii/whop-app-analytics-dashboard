@@ -21,7 +21,7 @@ export default async function ExperienceLayout({
 
   return (
     <WhopIframeSdkProvider>
-      <Theme accentColor="blue" grayColor="slate" radius="large" scaling="100%">
+      <Theme accentColor="blue" grayColor="slate">
         <WhopProvider
           state={dehydrate(serverQueryClient)}
           experienceId={experienceId}
