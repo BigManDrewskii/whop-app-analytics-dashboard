@@ -1,31 +1,24 @@
-import { dehydrate } from "@tanstack/react-query";
+'use client'
+
+import { use } from "react";
 import { WhopIframeSdkProvider } from "@whop/react";
 import { Theme } from "frosted-ui";
 import { WhopProvider } from "~/components/whop-context";
-import {
-  serverQueryClient,
-  whopExperienceQuery,
-  whopUserQuery,
-} from "~/components/whop-context/whop-queries";
 
-export const experimental_ppr = true;
-
-export default async function ExperienceLayout({
+export default function ExperienceLayout({
   children,
   params,
-}: LayoutProps<"/experiences/[experienceId]">) {
-  const { experienceId } = await params;
-
-  // Removed server-side prefetch - causes SSR crashes in production
-  // Data will load client-side instead
-  // serverQueryClient.prefetchQuery(whopExperienceQuery(experienceId));
-  // serverQueryClient.prefetchQuery(whopUserQuery(experienceId));
+}: {
+  children: React.ReactNode;
+  params: Promise<{ experienceId: string }>;
+}) {
+  const { experienceId } = use(params);
 
   return (
     <WhopIframeSdkProvider>
       <Theme accentColor="blue" grayColor="slate">
         <WhopProvider
-          state={dehydrate(serverQueryClient)}
+          state={{ queries: [], mutations: [] }}
           experienceId={experienceId}
         >
           {children}
