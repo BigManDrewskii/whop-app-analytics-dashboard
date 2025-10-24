@@ -13,7 +13,7 @@ export const experimental_ppr = true;
 export default async function ExperienceLayout({
   children,
   params,
-}: LayoutProps<"/experience/[experienceId]">) {
+}: LayoutProps<"/experiences/[experienceId]">) {
   const { experienceId } = await params;
 
   serverQueryClient.prefetchQuery(whopExperienceQuery(experienceId));
