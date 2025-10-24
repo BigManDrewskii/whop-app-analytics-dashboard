@@ -94,7 +94,7 @@ export async function syncCompanyData({
 			membership_id: p.membership?.id || null,
 			user_id: p.member?.user?.id || null,
 			status: p.status === 'succeeded' ? 'paid' : p.status || 'unknown',
-			final_amount: p.finalAmount || 0,
+			final_amount: Math.round((p.finalAmount || 0) * 100), // Convert dollars to cents
 			currency: p.currency || 'usd',
 			created_at: p.createdAt ? new Date(p.createdAt * 1000).toISOString() : null,
 			paid_at: p.paidAt ? new Date(p.paidAt * 1000).toISOString() : null,
