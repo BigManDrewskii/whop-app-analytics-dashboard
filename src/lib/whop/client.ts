@@ -18,13 +18,21 @@ export async function fetchAllPayments(companyId: string): Promise<any[]> {
 
 		const response = await whop.payments.listReceiptsForCompany({
 			companyId,
-			filter: {
-				statuses: ['succeeded', 'failed', 'refunded'],
-			},
+			filter: {}, // Fetch ALL receipts regardless of status
 		})
 
 		const receipts = response?.receipts?.nodes ?? []
 		console.log(`Fetched ${receipts.length} total receipts`)
+
+		// Log first receipt to see actual status
+		if (receipts.length > 0) {
+			console.log('Sample receipt:', {
+				id: receipts[0]?.id,
+				status: receipts[0]?.status,
+				finalAmount: receipts[0]?.finalAmount,
+			})
+		}
+
 		return receipts
 	} catch (error) {
 		console.error('Error fetching receipts:', error)
