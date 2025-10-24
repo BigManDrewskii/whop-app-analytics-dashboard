@@ -83,7 +83,7 @@ function AnalyticsDashboardContent() {
 		const isPositive = change > 0
 
 		return (
-			<Badge color={isPositive ? 'green' : 'red'} variant="soft" radius="full">
+			<Badge color={isPositive ? 'green' : 'red'} variant="soft">
 				<span className="flex items-center gap-1">
 					{isPositive ? <ArrowUpIcon className="w-3 h-3" /> : <ArrowDownIcon className="w-3 h-3" />}
 					{Math.abs(change).toFixed(1)}%
@@ -249,7 +249,7 @@ function AnalyticsDashboardContent() {
 												Churn Rate
 											</Text>
 										</div>
-										<Badge color={getChurnBadgeColor(analytics.churnRate)} variant="soft" radius="full">
+										<Badge color={getChurnBadgeColor(analytics.churnRate)} variant="soft">
 											{analytics.churnRate < 5 && 'Excellent'}
 											{analytics.churnRate >= 5 && analytics.churnRate < 10 && 'Good'}
 											{analytics.churnRate >= 10 && 'Needs attention'}
