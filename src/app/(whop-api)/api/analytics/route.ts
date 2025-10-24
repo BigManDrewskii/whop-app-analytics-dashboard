@@ -10,15 +10,20 @@ import { syncCompanyData } from '~/lib/analytics/sync'
 import { getDashboardSummary } from '~/lib/analytics/calculator'
 
 export async function GET(req: NextRequest) {
-	// 1. Verify user authentication
-	const { userId } = await verifyUserToken(req.headers)
-	if (!userId) {
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+	// 1. Try to verify user (but don't block if not available)
+	try {
+		const { userId } = await verifyUserToken(req.headers)
+		if (userId) {
+			console.log('[ANALYTICS] Authenticated user:', userId)
+		}
+	} catch (error) {
+		console.log('[ANALYTICS] No user auth - proceeding with API key only')
 	}
 
 	try {
-		// 2. Use the configured company ID
+		// 2. Use the configured company ID (from environment, not user)
 		const companyId = env.NEXT_PUBLIC_WHOP_COMPANY_ID
+		console.log('[ANALYTICS] Fetching analytics for company:', companyId)
 
 		// 3. Parse date range from query parameters
 		const { searchParams } = new URL(req.url)
