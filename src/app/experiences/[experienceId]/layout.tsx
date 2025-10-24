@@ -16,8 +16,10 @@ export default async function ExperienceLayout({
 }: LayoutProps<"/experiences/[experienceId]">) {
   const { experienceId } = await params;
 
-  serverQueryClient.prefetchQuery(whopExperienceQuery(experienceId));
-  serverQueryClient.prefetchQuery(whopUserQuery(experienceId));
+  // Removed server-side prefetch - causes SSR crashes in production
+  // Data will load client-side instead
+  // serverQueryClient.prefetchQuery(whopExperienceQuery(experienceId));
+  // serverQueryClient.prefetchQuery(whopUserQuery(experienceId));
 
   return (
     <WhopIframeSdkProvider>
